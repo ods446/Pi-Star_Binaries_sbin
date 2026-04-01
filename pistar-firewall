@@ -92,6 +92,16 @@ iptables -t mangle -A POSTROUTING -p udp --dport 62030 -j DSCP --set-dscp 46
 iptables -A OUTPUT -p udp --dport 42000:55000 -j ACCEPT #               YSF Outbound Connections
 iptables -t mangle -A POSTROUTING -p udp --dport 42000:55000 -j DSCP --set-dscp 46
 
+# Allow Inbound YSF Gateway Ports
+iptables -A INPUT -p udp --sport 42000:43000 --dport 1024:65535 -j ACCEPT # YSF Gateway Routing
+iptables -A INPUT -p udp --sport 52000 --dport 1024:65535 -j ACCEPT #       YSF Gateway Routing
+iptables -A INPUT -p udp --dport 42000:42100 -j ACCEPT #                    YSF Reflector Ports
+
+# Allow Inbound YSF Gateway Ports
+ip6tables -A INPUT -p udp --sport 42000:43000 --dport 1024:65535 -j ACCEPT #  YSF Gateway Routing
+ip6tables -A INPUT -p udp --sport 52000 --dport 1024:65535 -j ACCEPT #        YSF Gateway Routing
+ip6tables -A INPUT -p udp --dport 42000:42100 -j ACCEPT #                     YSF Reflector Ports
+
 # Allow Outbound FCS Ports
 iptables -A OUTPUT -p udp --sport 42001 --dport 62500 -j ACCEPT #       FCS Outbound Connections
 iptables -t mangle -A POSTROUTING -p udp --sport 42001 --dport 62500 -j DSCP --set-dscp 46
