@@ -49,6 +49,15 @@ if [ "$(id -u)" != "0" ];then
 	exit 1
 fi
 
+# Make sure disk is writable for our work (Pi-Star defaults RO)
+if [ -d /boot/firmware ]; then
+	mount -o remount,rw / >/dev/null 2>&1
+	mount -o remount,rw /boot/firmware >/dev/null 2>&1
+else
+	mount -o remount,rw / >/dev/null 2>&1
+	mount -o remount,rw /boot >/dev/null 2>&1
+fi
+
 # Create backup of old files
 if [ ${FILEBACKUP} -ne 0 ]; then
 	cp ${APRSHOSTS} ${APRSHOSTS}.$(date +%Y%m%d)

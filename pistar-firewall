@@ -8,6 +8,17 @@
 #                                                                                      #
 ########################################################################################
 
+# Make sure disk is writable so iptables-save can write /etc/iptables.rules (Pi-Star defaults RO)
+if [ "$(id -u)" = "0" ]; then
+	if [ -d /boot/firmware ]; then
+		mount -o remount,rw / >/dev/null 2>&1
+		mount -o remount,rw /boot/firmware >/dev/null 2>&1
+	else
+		mount -o remount,rw / >/dev/null 2>&1
+		mount -o remount,rw /boot >/dev/null 2>&1
+	fi
+fi
+
 printf "Setting IPv4 Rules...\n"
 #
 # IPv4 Firewall Rules
